@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Inventory Management</title>
+    <style>
+        .wrapper {
+            padding: 30px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-control-sm {
+            height: 38px !important;
+        }
+
+        .table-container {
+            margin-top: 50px;
+        }
+
+        @media (min-width: 576px) {
+            .modal-dialog {
+                max-width: 1000px;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        <h1 class="text-center">Inventory Management App</h1>
+
+        {% block modal %} {% endblock %}
+
+        <!-- Modal -->
+        <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add New Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                <form action="/" method="post" class="form-horizontal">
+                    <table class="add-product table table-bordered table-striped table-highlight">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" name="name" id="name" class="form-control" placeholder="Enter product name" required></td>
+                            <td><input type="text" name="price" id="price" class="form-control" placeholder="Enter product price" required></td>
+                            <td><input type="text" name="qty" id="qty" class="form-control" placeholder="Enter product quantity" required></td>
+                        </tr>
+                    </tbody>
+                    </table>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-plus-circle-fill mr-1"></i>
+                        Add Product
+                    </button>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+
+        <!-- Inventory -->
+        <div class="table-container">
+            <button type="submit" class="btn btn-primary float-right" data-toggle="modal" data-target="#addProductModal">
+                <i class="bi bi-plus-circle-fill mr-1"></i>
+                New Product
+            </button>
+            <table id="inventoryTable" class="table p-4" style="margin-top: 4rem;">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">In Stock</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                        <tr>
+                            <td>{{ product.name }}</td>
+                            <td>₹ {{ product.price }}</td>
+                            <td>{{ product.qty }}</td>
+                            <td>
+                                <a href="/delete/{{product.id}}">
+                                    <button type="button" class="btn btn-danger px-3 mr-3">
+                                        <i class="bi bi-trash" aria-hidden="true"></i>
+                                    </button>
+                                </a>
+                                <a href="/update/{{product.id}}">
+                                    <button type="button" class="btn btn-primary px-3 mr-3">
+                                        <i class="bi bi-pencil" aria-hidden="true"></i>
+                                    </button>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    {% block script %} 
+        <script>
+            $(document).ready(function () {
+                $('#inventoryTable').DataTable();
+            });
+        </script>
+    {% endblock %}
+{% endblock %}
