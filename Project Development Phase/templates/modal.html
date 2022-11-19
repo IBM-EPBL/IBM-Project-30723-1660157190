@@ -1,0 +1,57 @@
+{% extends 'index.html' %}
+
+{% block modal %}
+  <!-- Modal -->
+  <div class="modal fade" id="updateProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <i class="bi bi-pencil-square mx-3" style="font-size: 20px;"></i>
+          <h5 class="modal-title" id="exampleModalLongTitle">Edit Product</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="/update/{{product.id}}" method="post" class="form-horizontal">
+          <div class="modal-body">
+            <table class="update-product table table-bordered table-striped table-highlight">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" name="name" id="name" class="form-control" value="{{product.name}}" required></td>
+                    <td><input type="text" name="price" id="price" class="form-control" value="{{product.price}}" required></td>
+                    <td><input type="text" name="qty" id="qty" class="form-control" value="{{product.qty}}" required></td>
+                </tr>
+            </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-check-circle-fill mr-2" style="font-size: 20px;"></i>
+              Update Product
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary float-right" id="toggleButton" data-toggle="modal" data-target="#updateProductModal" hidden>
+      <i class="bi bi-plus-circle-fill mr-1"></i>
+      New Product
+    </button>
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script>
+    $(document).ready(function() {
+      $('#inventoryTable').DataTable();
+      $('#toggleButton').click();
+    })
+  </script>
+{% endblock %}
